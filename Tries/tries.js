@@ -1,5 +1,12 @@
+/* Create a Data structure that once mapped is capable of finding
+ * a word in an arbitarily large data set in O(n) time
+ * where n is the length of the word
+*/
 
+// Example Input
 const wordsArray = ["cat", "car"] //-> "*at"
+
+// Example Mapping
 const wordMap = {
     "c" : {
         "a": {
@@ -9,7 +16,7 @@ const wordMap = {
     }
   }
 
-
+// Maps the input array
 function createWordMap(wordsArray) {
     // intitalize a word map
     let wordMap = {};
@@ -28,73 +35,8 @@ function createWordMap(wordsArray) {
     return wordMap;
 }
 
-// console.log(createWordMap(wordsArray))
 
-// class TrieNode {
-//     constructor() {
-//         this.children = new Map();
-//         this.isEndOfWord = false;
-//     }
-// }
-  
-// function createTrieWordMap(wordsArray) {
-//     const root = new TrieNode();
-
-//     for (const word of wordsArray) {
-//         let currentNode = root;
-//         for (const char of word) {
-//         if (!currentNode.children.has(char)) {
-//             currentNode.children.set(char, new TrieNode());
-//         }
-//         currentNode = currentNode.children.get(char);
-//         }
-//         currentNode.isEndOfWord = true;
-//     }
-
-//     const wordMap = {};
-
-//     function traverse(node, prefix) {
-//         if (node.isEndOfWord) {
-//         wordMap[prefix] = true;
-//         }
-//         for (const [char, childNode] of node.children.entries()) {
-//         traverse(childNode, prefix + char);
-//         }
-//     }
-
-//     traverse(root, '');
-
-//     return wordMap;
-// }
-
-// console.log(createTrieWordMap(wordsArray) )
-
-// class Dictionary {
-//     constructor(wordsArray) {
-//         const wordMap = wordsArray.reduce((acc, word) => {
-//             acc[word] = true;
-
-//             word.split('').forEach((letter, i) => {
-//                 const start = word.slice(0, i);
-//                 const end = word.slice(i + 1);
-
-//                 const partialWord = `${start}*${end}`;
-
-//                 acc[partialWord] = true
-//             })
-
-//             return acc
-//         }, {})
-//         this.dict = wordMap;
-//     }
-
-//     isIndict(word) {
-//         return !!this.dict[word]
-//     }
-// }
-
-
-// Trei with wildCard support 
+// Trie with wildCard support 
 class TrieNode {
     constructor() {
       this.children = new Map();
