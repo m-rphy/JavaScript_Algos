@@ -1,1 +1,1 @@
-THis is a repo of javaScript algorithm solutions
+This is a repo of javaScript algorithm solutions
