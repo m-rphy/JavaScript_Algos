@@ -7,10 +7,8 @@
 // Time: O(n * 2^n), Space: O(n)
 const subSet = (arr) => {
 
-    const subSets = [];
-    const curSet = [];
 
-    const dfs = (index, arr, curSet, subSets) => {
+    const dfs = (index, arr, curSet = [], subSets = []) => {
         // base case:
         if (index >= arr.length)  {
             subSets.push([...curSet]);
@@ -25,8 +23,8 @@ const subSet = (arr) => {
         curSet.pop();
         dfs(index, arr, curSet, subSets);
     };
-
-    dfs(0, arr, curSet, subSets);
+    const subSets = [];
+    dfs(0, arr, [], subSets);
     return subSets;
 };
 
