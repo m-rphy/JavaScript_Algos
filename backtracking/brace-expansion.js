@@ -30,6 +30,7 @@ const expand = (s) => {
       output.push(currString);
       return;
     }
+    
     const char = s[idx];
     if (char !== '{') {
       dfs(idx + 1, s, currString + char);
@@ -40,6 +41,7 @@ const expand = (s) => {
       }
     }
   };
+
   dfs(0, s, '');
   return output;
 };

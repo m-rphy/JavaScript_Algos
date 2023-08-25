@@ -4,15 +4,12 @@ function PriorityQueue() {
     this.items = [];
   }
   
-  PriorityQueue.prototype.enqueue = function(item, priority) {
-    var newItem = { item: item, priority: priority };
-    for (var i = 0; i < this.items.length; i++) {
-      if (priority < this.items[i].priority) {
-        this.items.splice(i, 0, newItem);
-        return;
-      }
-    }
-    this.items.push(newItem);
+  PriorityQueue.prototype.enqueue = function(item, priority = this.items.length) {
+    const newItem = { item: item, priority: priority };
+    let index = 0;
+    while (index < this.items.length && priority >= this.items[index].priority) index++;
+  
+    this.items.splice(index, 0, newItem);
   };
   
   PriorityQueue.prototype.dequeue = function() {

@@ -53,7 +53,7 @@ function merge(left, right) {
   let j = 0;
   
   // here we use two pointers instead of shift. This eliminates the 
-  // need to re-index the array. The logic is the sama though
+  // need to re-index the array. The logic is the same though
   while (i < left.length && j < right.length) {
     if (left[i] < right[j]) {
       result.push(left[i++]);

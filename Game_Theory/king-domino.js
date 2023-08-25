@@ -58,12 +58,14 @@ const getScore = (board) => {
   }
   return score;
 };
+
 const deltas = [
   [1, 0],
   [-1, 0],
   [0, 1],
   [0, -1],
 ];
+
 const dfs = (matrix, row, col, visited, startingChar) => {
   const rowInBounds = 0 <= row && row < matrix.length;
   const colInBounds = 0 <= col && col < matrix[0].length;
