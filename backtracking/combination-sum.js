@@ -25,29 +25,33 @@ These are the only two combinations.
 // Approach: Backtracking, closure
 // O(2^n) time | O(2^n) space
 const combinationSum = (candidates, target) => {
-  // declare result variable and current array
+
   const res = [];
   const cur = [];
+
   // create backtracking dfs function
   const dfs = (idx, cur, total) => {
-    // base case
+    // base case: Valid
     if (total === target) {
       res.push([...cur]);
       return;
-    }
-    // base case if not valid
+    };
+    // base case: Not Valid
     if (idx === candidates.length || total > target) return;
-    // take
-    cur.push(candidates[idx]);
-    dfs(idx, cur, total + candidates[idx]);
-    // dont take
-    cur.pop();
-    dfs(idx + 1, cur, total);
+    
+    // Take it OR Leave it:
+    cur.push(candidates[idx]); // take
+    dfs(idx, [...cur], total + candidates[idx]);
+
+    cur.pop(); // leave
+    dfs(idx + 1, [...cur], total);
   };
-  // call helper function
+  // initial conditions
   dfs(0, cur, 0);
   return res;
 };
+
+console.log(combinationSum([2,3,6,7], 7))
 
 // Approach: Backtracking
 // O(2^n) time | O(2^n) space

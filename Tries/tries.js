@@ -35,82 +35,55 @@ function createWordMap(wordsArray) {
     return wordMap;
 }
 
-
 // Trie with wildCard support 
-class TrieNode {
-    constructor() {
-      this.children = new Map();
-      this.isEndOfWord = false;
-      this.suffixLink = null;
+function TrieNode() {
+  this.children = new Map();
+  this.isEndOfWord = false;
+  // this.suffixLink = null;
+}
+
+function createWordMap(wordsArray) {
+  const root = new TrieNode();
+
+  // Build the Trie
+  for (const word of wordsArray) {
+    let currNode = root;
+    for (const char of word) {
+      if (!currNode.children.has(char)) {
+        currNode.children.set(char, new TrieNode());
+      }
+      curtNode = currNode.children.get(char);
+    }
+    currNode.isEndOfWord = true;
+  }
+  console.log(root)
+
+  function traverse(node, prefix) {
+    if (node.isEndOfWord) {
+      wordMap[prefix] = true;
+    }
+    for (const [char, childNode] of node.children.entries()) {
+      const nextPrefix = prefix + char;
+      if (nextPrefix.startsWith(patternPrefix) || patternPrefix.startsWith(nextPrefix)) {
+        traverse(childNode, nextPrefix);
+      }
     }
   }
-  
-  function createWordMap(wordsArray) {
-    const root = new TrieNode();
-  
-    for (const word of wordsArray) {
-      let currentNode = root;
-      for (const char of word) {
-        if (!currentNode.children.has(char)) {
-          currentNode.children.set(char, new TrieNode());
-          console.log(currentNode.children.set(char, new TrieNode()))
-        }
-        currentNode = currentNode.children.get(char);
-      }
-      currentNode.isEndOfWord = true;
-    }
-  
-    // Set up suffix links
-    root.suffixLink = root;
-    const queue = [root];
-    while (queue.length > 0) {
-      const currentNode = queue.shift();
-      for (const [char, childNode] of currentNode.children.entries()) {
-        let suffixLinkNode = currentNode.suffixLink;
-        while (suffixLinkNode !== root && !suffixLinkNode.children.has(char)) {
-          suffixLinkNode = suffixLinkNode.suffixLink;
-        }
-        if (suffixLinkNode.children.has(char)) {
-          childNode.suffixLink = suffixLinkNode.children.get(char);
-        } else {
-          childNode.suffixLink = root;
-        }
-        queue.push(childNode);
-      }
-      if (currentNode !== root && currentNode.suffixLink.isEndOfWord) {
-        currentNode.isEndOfWord = true;
-      }
-    }
-  
-    function traverse(node, prefix) {
-      if (node.isEndOfWord) {
-        wordMap[prefix] = true;
-      }
-      for (const [char, childNode] of node.children.entries()) {
-        const nextPrefix = prefix + char;
-        if (nextPrefix.startsWith(patternPrefix) || patternPrefix.startsWith(nextPrefix)) {
-          traverse(childNode, nextPrefix);
-        }
-      }
-      if (node.suffixLink !== null && (patternPrefix === '' || patternPrefix.startsWith(prefix))) {
-        traverse(node.suffixLink, prefix);
-      }
-    }
-  
-    const wordMap = {};
-    let patternPrefix = '';
-  
-    function findWordsWithWildcard(pattern) {
-      patternPrefix = pattern.slice(0, -1);
-      const rootNode = pattern.charAt(0) === '*' ? root : root.children.get(pattern.charAt(0));
-      traverse(rootNode, '');
-      return Object.keys(wordMap);
-    }
-  
-    return {
-      findWordsWithWildcard,
-    };
+
+  // Function to find words with wildcard pattern
+  function findWordsWithWildcard(pattern) {
+    patternPrefix = pattern.slice(0, -1);
+    const rootNode = pattern.charAt(0) === '*' ? root : root.children.get(pattern.charAt(0));
+    traverse(rootNode, '');
+    return Object.keys(wordMap);
   }
 
+  return {
+    findWordsWithWildcard,
+  };
+}
 
-  createWordMap(wordsArray)
+
+const map = createWordMap(wordsArray);
+
+console.log(map.findWordsWithWildcard('t'))
